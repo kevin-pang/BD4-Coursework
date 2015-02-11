@@ -19,9 +19,10 @@ public class Task2 extends Configured implements Tool {
 
 		//Set up configuration object to put parameter
 		Configuration conf = new Configuration();
-		if(args.length >= 4){
+		if(args.length >= 5){
 			conf.set("start", args[2]);
 			conf.set("end", args[3]);
+			conf.set("k", args[4]);
 		} else {
 			System.out.println("Insufficent args");
 			System.out.println("java Task1 <inputfile> <outputfolder> <start> <end> <k>");
@@ -31,7 +32,7 @@ public class Task2 extends Configured implements Tool {
 		Job job1 = new Job(conf);		
 		initJob1(args, job1);
 		
-		Job job2 = new Job();
+		Job job2 = new Job(conf);
 		initJob2(args, job2);
 		
 		

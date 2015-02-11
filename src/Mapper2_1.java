@@ -10,7 +10,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
-public class Mapper1 extends Mapper<LongWritable, Text, LongWritable, LongWritable> {
+public class Mapper2_1 extends Mapper<LongWritable, Text, LongWritable, LongWritable> {
 	private LongWritable article_id = new LongWritable();
 	private LongWritable rev_id = new LongWritable();
 	private Date start;
@@ -50,7 +50,6 @@ public class Mapper1 extends Mapper<LongWritable, Text, LongWritable, LongWritab
 			if(checkDateWithin(timestamp)){			
 				context.write(article_id, rev_id);
 			}
-			
 		}
 	}
 

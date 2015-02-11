@@ -1,9 +1,7 @@
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -30,7 +28,7 @@ public class Task1 extends Configured implements Tool {
 		Job job = new Job(conf);
 		
 		job.setJobName("Task1");
-		job.setJarByClass(Task1.class);
+		job.setJarByClass(Task1.class);		
 		
 		// set mapper class
 		job.setMapperClass(Mapper1.class);

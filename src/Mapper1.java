@@ -15,7 +15,7 @@ public class Mapper1 extends Mapper<LongWritable, Text, LongWritable, LongWritab
 	private LongWritable rev_id = new LongWritable();
 	private Date start;
 	private Date end;
-
+	/*LOL*/
 	// set up mapper
 	@Override
 	protected void setup(Context context) throws IOException,

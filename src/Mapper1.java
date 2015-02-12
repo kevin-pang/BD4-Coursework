@@ -10,7 +10,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
-public class Mapper1 extends Mapper<LongWritable, Text, LongWritable, LongWritable> {
+public class Mapper1 extends Mapper<LongWritable, Text, CompositeKey, LongWritable> {
 	private LongWritable article_id = new LongWritable();
 	private LongWritable rev_id = new LongWritable();
 	private Date start;
@@ -39,16 +39,22 @@ public class Mapper1 extends Mapper<LongWritable, Text, LongWritable, LongWritab
 			StringTokenizer words = new StringTokenizer(getRemainingString(line));
 			
 			// set article_id and rev_id LongWritable
-			article_id.set(getLongId(words.nextToken()));
-			rev_id.set(getLongId(words.nextToken()));
+			long article_id_long = getLongId(words.nextToken());
+			long rev_id_long = getLongId(words.nextToken());
+			//article_id.set(article_id_long);
+			rev_id.set(rev_id_long);
 			
 			// get timestamp
 			words.nextToken(); //to skip article_title
 			Date timestamp = getDateTime(words.nextToken());
-
+			
+			CompositeKey ck = new CompositeKey();
+			ck.setArticle_ID(article_id_long);
+			ck.setRev_ID(rev_id_long);
+			
 			// if timestamp is within start and end date add
 			if(checkDateWithin(timestamp)){			
-				context.write(article_id, rev_id);
+				context.write(ck, rev_id);
 			}
 			
 		}

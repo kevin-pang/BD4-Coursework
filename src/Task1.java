@@ -21,7 +21,7 @@ public class Task1 extends Configured implements Tool {
 			conf.set("end", args[3]);
 		} else {
 			System.out.println("Insufficent args");
-			System.out.println("java Task1 <inputfile>l");
+			System.out.println("java Task1 <inputfile> <outputfolder> <start> <end>");
 			System.exit(0);
 		}
 		// add conf object when init Job
@@ -36,11 +36,17 @@ public class Task1 extends Configured implements Tool {
 		// set combiner class
 		//job.setCombinerClass(Reducer1.class); 
 		
+		// set partitioner class
+		job.setMapOutputKeyClass(CompositeKey.class);
+		job.setPartitionerClass(ActualKeyPartitioner.class);
+		job.setGroupingComparatorClass(ActualKeyGroupingComparator.class);
+		job.setSortComparatorClass(CompositeKeyComparator.class);
+		
 		//set reducer class
 		job.setReducerClass(Reducer1.class);	
 		
 		//set output key and value
-		job.setOutputKeyClass(LongWritable.class);
+		job.setOutputKeyClass(CompositeKey.class);
 		job.setOutputValueClass(LongWritable.class);
 
 		

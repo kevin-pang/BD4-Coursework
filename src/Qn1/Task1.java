@@ -1,3 +1,4 @@
+package Qn1;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -37,16 +38,16 @@ public class Task1 extends Configured implements Tool {
 		//job.setCombinerClass(Reducer1.class); 
 		
 		// set partitioner class
-		job.setMapOutputKeyClass(CompositeKey.class);
-		job.setPartitionerClass(ActualKeyPartitioner.class);
-		job.setGroupingComparatorClass(ActualKeyGroupingComparator.class);
-		job.setSortComparatorClass(CompositeKeyComparator.class);
+		job.setMapOutputKeyClass(CompositeKey1.class);
+		job.setPartitionerClass(ActualKeyPartitioner1.class);
+		job.setGroupingComparatorClass(ActualKeyGroupingComparator1.class);
+		job.setSortComparatorClass(CompositeKeyComparator1.class);
 		
 		//set reducer class
 		job.setReducerClass(Reducer1.class);	
 		
 		//set output key and value
-		job.setOutputKeyClass(CompositeKey.class);
+		job.setOutputKeyClass(CompositeKey1.class);
 		job.setOutputValueClass(LongWritable.class);
 
 		

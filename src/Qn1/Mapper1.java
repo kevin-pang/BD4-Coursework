@@ -1,3 +1,4 @@
+package Qn1;
 import java.io.IOException;
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -10,7 +11,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
-public class Mapper1 extends Mapper<LongWritable, Text, CompositeKey, LongWritable> {
+public class Mapper1 extends Mapper<LongWritable, Text, CompositeKey1, LongWritable> {
 	private LongWritable article_id = new LongWritable();
 	private LongWritable rev_id = new LongWritable();
 	private Date start;
@@ -48,7 +49,7 @@ public class Mapper1 extends Mapper<LongWritable, Text, CompositeKey, LongWritab
 			words.nextToken(); //to skip article_title
 			Date timestamp = getDateTime(words.nextToken());
 			
-			CompositeKey ck = new CompositeKey();
+			CompositeKey1 ck = new CompositeKey1();
 			ck.setArticle_ID(article_id_long);
 			ck.setRev_ID(rev_id_long);
 			

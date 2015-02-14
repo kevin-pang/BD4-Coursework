@@ -1,14 +1,15 @@
+package Qn1;
 import java.io.IOException;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 
-public class Reducer1 extends Reducer<CompositeKey, LongWritable, LongWritable, Text> {
+public class Reducer1 extends Reducer<CompositeKey1, LongWritable, LongWritable, Text> {
 //	LongArrayWritable rev_id_array;
 //	List<LongWritable> rev_id_list;
 	@Override
-	protected void reduce(CompositeKey key, Iterable<LongWritable> values, Context context)
+	protected void reduce(CompositeKey1 key, Iterable<LongWritable> values, Context context)
 			throws IOException, InterruptedException {
 			
 			int count = 0;

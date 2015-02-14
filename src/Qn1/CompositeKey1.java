@@ -1,3 +1,4 @@
+package Qn1;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -6,13 +7,13 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableUtils;
 
 
-public class CompositeKey implements WritableComparable {
+public class CompositeKey1 implements WritableComparable {
 	private long article_id;
 	private long rev_id;
 	
-	public CompositeKey() { }
+	public CompositeKey1() { }
 	
-	public CompositeKey(long article_id, long rev_id) {
+	public CompositeKey1(long article_id, long rev_id) {
 		this.article_id = article_id;
 		this.rev_id = rev_id;
 	}
@@ -36,7 +37,7 @@ public class CompositeKey implements WritableComparable {
 	
 	@Override
 	public int compareTo(Object o) {
-		CompositeKey ck = (CompositeKey) o;
+		CompositeKey1 ck = (CompositeKey1) o;
 		//int result = article_id.compareTo(ck.article_id);
 		int result = Long.compare(article_id, ck.article_id);
 		if (0 == result) {

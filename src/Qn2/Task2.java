@@ -1,3 +1,5 @@
+package Qn2;
+
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
@@ -65,14 +67,14 @@ public class Task2 extends Configured implements Tool {
 		job1.setOutputValueClass(LongWritable.class);
 
 		
-		// set input and outut format class
+		// set input and outut format classTask2
 		job1.setInputFormatClass(TextInputFormat.class);
 		job1.setOutputFormatClass(TextOutputFormat.class);
 		
 		
 		// set input and output paths
 		FileInputFormat.setInputPaths(job1, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job1, new Path(args[1]));
+		FileOutputFormat.setOutputPath(job1, new Path(args[1] + "_job_1_of_2"));
 	}
 	
 	private void initJob2(String[] args, Job job2) throws IOException {
@@ -80,13 +82,19 @@ public class Task2 extends Configured implements Tool {
 		job2.setJarByClass(Task2.class);
 		
 		// set sort order decreasing
-		job2.setSortComparatorClass(DecreasingComparator.class);
+		//job2.setSortComparatorClass(DecreasingComparator.class);
 		
 		// set mapper class
 		job2.setMapperClass(Mapper2_2.class);
 		
 		// set combiner class
 		//job.setCombinerClass(Reducer1.class); 
+		
+		// set partitioner class
+		job2.setMapOutputKeyClass(CompositeKey2.class);
+		job2.setPartitionerClass(ActualKeyPartitioner2.class);
+		job2.setGroupingComparatorClass(ActualKeyGroupingComparator2.class);
+		job2.setSortComparatorClass(CompositeKeyComparator2.class);
 		
 		//set reducer class
 		job2.setReducerClass(Reducer2_2.class);	
@@ -102,8 +110,8 @@ public class Task2 extends Configured implements Tool {
 		
 		
 		// set input and output paths
-		FileInputFormat.setInputPaths(job2, new Path(args[1] + "/part-r-00000"));
-		FileOutputFormat.setOutputPath(job2, new Path("temp"));
+		FileInputFormat.setInputPaths(job2, new Path(args[1] + "_job_1_of_2/part-r-00000"));
+		FileOutputFormat.setOutputPath(job2, new Path(args[1] + "_job_2_of_2"));
 	}
 	public static void main(String[] args) throws Exception {
 		System.exit(ToolRunner.run(new Configuration(), new Task2(), args));

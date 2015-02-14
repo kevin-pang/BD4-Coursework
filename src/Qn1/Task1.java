@@ -13,6 +13,7 @@ import org.apache.hadoop.util.ToolRunner;
 
 
 public class Task1 extends Configured implements Tool {
+	private static final String SPACE_SEPARATOR = " ";
 	public int run(String[] args) throws Exception {
 
 		//Set up configuration object to put parameter
@@ -25,8 +26,13 @@ public class Task1 extends Configured implements Tool {
 			System.out.println("java Task1 <inputfile> <outputfolder> <start> <end>");
 			System.exit(0);
 		}
+		
+		// set output separator to whitespace instead of tab
+		conf.set("mapred.textoutputformat.separator", SPACE_SEPARATOR);
+		
 		// add conf object when init Job
 		Job job = new Job(conf);
+		
 		
 		job.setJobName("Task1");
 		job.setJarByClass(Task1.class);		
@@ -58,7 +64,7 @@ public class Task1 extends Configured implements Tool {
 		
 		// set input and output paths
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1] + "_Job_1_of_1"));
 		
 		
 		job.submit();

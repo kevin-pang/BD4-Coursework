@@ -15,15 +15,12 @@ public class CompositeKeyComparator2 extends WritableComparator {
 		CompositeKey2 key1 = (CompositeKey2) w1;
 		CompositeKey2 key2 = (CompositeKey2) w2;
 
-		// (first check on Article_ID)
-		//int compare = key1.getArticle_ID().compareTo(key2.getArticle_ID());
+		// (first check on getRev_ID_Count)
 		int compare = Long.compare(key2.getRev_ID_Count(), key1.getRev_ID_Count());
-//		int compare = Long.compare(key1.getRev_ID_Count(), key2.getRev_ID_Count());
 
 		if (compare == 0) {
 			// only if we are in the same input group should we try and sort by
-			// value (Rev_ID)
-			//return key1.getRev_ID().compareTo(key2.getRev_ID());
+			// value (Article_ID)			
 			return Long.compare(key1.getArticle_ID(), key2.getArticle_ID());
 		}
 

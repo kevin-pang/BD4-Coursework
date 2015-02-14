@@ -7,7 +7,7 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableUtils;
 
 
-public class CompositeKey1 implements WritableComparable {
+public class CompositeKey1 implements WritableComparable<CompositeKey1> {
 	private long article_id;
 	private long rev_id;
 	
@@ -36,13 +36,10 @@ public class CompositeKey1 implements WritableComparable {
 	}
 	
 	@Override
-	public int compareTo(Object o) {
-		CompositeKey1 ck = (CompositeKey1) o;
-		//int result = article_id.compareTo(ck.article_id);
+	public int compareTo(CompositeKey1 ck) {
 		int result = Long.compare(article_id, ck.article_id);
 		if (0 == result) {
 			result = Long.compare(rev_id, ck.rev_id);
-			//result = rev_id.compareTo(ck.rev_id);
 		}
 		return result;
 	}

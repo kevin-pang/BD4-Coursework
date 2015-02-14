@@ -18,6 +18,6 @@ public class ActualKeyGroupingComparator1 extends WritableComparator {
 
 		// (check on getArticle_ID)
 		return Long.compare(key1.getArticle_ID(),key2.getArticle_ID());
-		//return key1.getArticle_ID().compareTo(key2.getArticle_ID());
+		
 	}
 }

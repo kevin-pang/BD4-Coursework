@@ -1,4 +1,4 @@
-package Qn2;
+package Qn3;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -8,39 +8,39 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableUtils;
 
 
-public class CompositeKey2 implements WritableComparable<CompositeKey2> {
-	private long rev_id_count;
+public class CompositeKey3 implements WritableComparable<CompositeKey3> {
+	private long timestamp;
 	private long article_id;
 	
-	public CompositeKey2() { }
+	public CompositeKey3() { }
 	
-	public CompositeKey2(long rev_id_count, long article_id) {
-		this.rev_id_count = rev_id_count;
+	public CompositeKey3(long timestamp, long article_id) {
+		this.timestamp = timestamp;
 		this.article_id = article_id;
 	}
 	
 	@Override
 	public String toString() {
-		return (new StringBuilder()).append(rev_id_count).append(',').append(article_id).toString();
+		return (new StringBuilder()).append(timestamp).append(',').append(article_id).toString();
 	}
 	 
 	@Override
 	public void readFields(DataInput in) throws IOException {
 		article_id = WritableUtils.readVLong(in);
-		rev_id_count = WritableUtils.readVLong(in);
+		timestamp = WritableUtils.readVLong(in);
 		
 	}
 	 
 	@Override
 	public void write(DataOutput out) throws IOException { 
 		WritableUtils.writeVLong(out, article_id);
-		WritableUtils.writeVLong(out, rev_id_count);
+		WritableUtils.writeVLong(out, timestamp);
 		
 	}
 	
 	@Override
-	public int compareTo(CompositeKey2 ck) {
-		int result = Long.compare(rev_id_count, ck.rev_id_count);
+	public int compareTo(CompositeKey3 ck) {
+		int result = Long.compare(timestamp, ck.timestamp);
 		if (0 == result) {
 			result = Long.compare(article_id, ck.article_id);
 		}
@@ -48,16 +48,16 @@ public class CompositeKey2 implements WritableComparable<CompositeKey2> {
 	}
 
 	/**
-	* Gets the rev_id_count.
+	* Gets the timestamp.
 	*
-	* @return rev_id_count.
+	* @return timestamp.
 	*/
-	public long getRev_ID_Count() {
-		return rev_id_count;
+	public long getTimestamp() {
+		return timestamp;
 	}
 
-	public void setRev_ID_Count(long rev_id_count) {
-		this.rev_id_count = rev_id_count;
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	/**

@@ -115,6 +115,7 @@ public class Task2 extends Configured implements Tool
 
 		//set reducer class
 		job2.setReducerClass(Reducer2_2.class);	
+		job2.setNumReduceTasks(1);
 
 		//set output key and value
 		job2.setOutputKeyClass(LongWritable.class);

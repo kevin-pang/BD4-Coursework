@@ -16,8 +16,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 
-public class Task3 extends Configured implements Tool
-{	
+public class Task3 extends Configured implements Tool{
 	private static final String SPACE_SEPARATOR = " ";
 	public int run(String[] args) throws Exception {
 
@@ -39,6 +38,15 @@ public class Task3 extends Configured implements Tool
 			// add stuff for running on hdfs
 			conf.addResource(args[3]);
 			conf.set("mapred.jar", args[4]);
+		}
+		
+		// add largestId to conf
+		if(args.length >= 6){
+			conf.setInt("largestId",Integer.parseInt(args[5]));
+		} else{
+			// id in "enwiki-20080103-perftest.txt"
+			// ranges from 1 to 15071250
+			conf.setInt("largestId",15071250);
 		}
 		
 		// delete previously created output folder
@@ -72,6 +80,7 @@ public class Task3 extends Configured implements Tool
 
 		//set reducer class
 		job1.setReducerClass(Reducer3_1.class);	
+		//job1.setNumReduceTasks(1);
 
 		//set output key and value
 		job1.setOutputKeyClass(CompositeKey3.class);

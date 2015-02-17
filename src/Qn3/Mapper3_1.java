@@ -21,7 +21,6 @@ public class Mapper3_1 extends Mapper<LongWritable, Text, CompositeKey3, LongWri
 	InterruptedException {
 		// get conf object from context
 		Configuration conf = context.getConfiguration();
-
 		// set start and end date
 		timestampInput = getDateTime(conf.get("timestamp"));
 	}

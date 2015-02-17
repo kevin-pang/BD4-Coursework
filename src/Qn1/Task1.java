@@ -1,6 +1,7 @@
 package Qn1;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
@@ -29,6 +30,17 @@ public class Task1 extends Configured implements Tool {
 		
 		// set output separator to whitespace instead of tab
 		conf.set("mapred.textoutputformat.separator", SPACE_SEPARATOR);
+		
+		if(args.length >= 6){
+			// add stuff for running on hdfs
+			conf.addResource(args[4]);
+			conf.set("mapred.jar", args[5]);
+		}
+		
+		// delete previously created output folder
+		FileSystem fs = FileSystem.get(conf);
+		fs.delete(new Path(args[1] + "_Job_1_of_1"), true);
+		
 		
 		// add conf object when init Job
 		Job job = new Job(conf);

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.LongWritable.DecreasingComparator;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -35,6 +35,17 @@ public class Task2 extends Configured implements Tool
 
 		// set output separator to whitespace instead of tab
 		conf.set("mapred.textoutputformat.separator", SPACE_SEPARATOR);
+		
+		if(args.length >= 7){
+			// add stuff for running on hdfs
+			conf.addResource(args[5]);
+			conf.set("mapred.jar", args[6]);
+		}
+		
+		// delete previously created output folder
+		FileSystem fs = FileSystem.get(conf);
+		fs.delete(new Path(args[1] + "_Job_1_of_2"), true);
+		fs.delete(new Path(args[1] + "_Job_2_of_2"), true);
 
 		// add conf object when init Job
 		Job job1 = new Job(conf);		
@@ -116,7 +127,8 @@ public class Task2 extends Configured implements Tool
 
 
 		// set input and output paths
-		FileInputFormat.setInputPaths(job2, new Path(args[1] + "_Job_1_of_2/part-r-00000"));
+//		FileInputFormat.setInputPaths(job2, new Path(args[1] + "_Job_1_of_2/part-r-00000"));
+		FileInputFormat.setInputPaths(job2, new Path(args[1] + "_Job_1_of_2"));
 		FileOutputFormat.setOutputPath(job2, new Path(args[1] + "_Job_2_of_2"));
 	}
 	public static void main(String[] args) throws Exception {

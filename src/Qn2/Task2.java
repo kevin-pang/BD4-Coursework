@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -67,21 +68,21 @@ public class Task2 extends Configured implements Tool
 
 	}
 	private void initJob1(String[] args, Job job1) throws IOException {
-		job1.setJobName("Task2-1");
+		job1.setJobName("Task2-1(Comb)-Final");
 		job1.setJarByClass(Task2.class);
 
 		// set mapper class
 		job1.setMapperClass(Mapper2_1.class);
 
 		// set combiner class
-		//job.setCombinerClass(Reducer1.class); 
+		job1.setCombinerClass(Reducer2_1.class); 
 
 		//set reducer class
 		job1.setReducerClass(Reducer2_1.class);	
 
 		//set output key and value
 		job1.setOutputKeyClass(LongWritable.class);
-		job1.setOutputValueClass(LongWritable.class);
+		job1.setOutputValueClass(IntWritable.class);
 
 
 		// set input and outut format classTask2
@@ -95,17 +96,11 @@ public class Task2 extends Configured implements Tool
 	}
 
 	private void initJob2(String[] args, Job job2) throws IOException {
-		job2.setJobName("Task2-2");
-		job2.setJarByClass(Task2.class);
-
-		// set sort order decreasing
-		//job2.setSortComparatorClass(DecreasingComparator.class);
+		job2.setJobName("Task2-2(Comb)-Final");
+		job2.setJarByClass(Task2.class);		
 
 		// set mapper class
 		job2.setMapperClass(Mapper2_2.class);
-
-		// set combiner class
-		//job.setCombinerClass(Reducer1.class); 
 
 		// set partitioner class
 		job2.setMapOutputKeyClass(CompositeKey2.class);
@@ -121,14 +116,11 @@ public class Task2 extends Configured implements Tool
 		job2.setOutputKeyClass(LongWritable.class);
 		job2.setOutputValueClass(LongWritable.class);
 
-
 		// set input and outut format class
 		job2.setInputFormatClass(TextInputFormat.class);
 		job2.setOutputFormatClass(TextOutputFormat.class);
 
-
 		// set input and output paths
-//		FileInputFormat.setInputPaths(job2, new Path(args[1] + "_Job_1_of_2/part-r-00000"));
 		FileInputFormat.setInputPaths(job2, new Path(args[1] + "_Job_1_of_2"));
 		FileOutputFormat.setOutputPath(job2, new Path(args[1] + "_Job_2_of_2"));
 	}

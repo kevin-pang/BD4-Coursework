@@ -1,4 +1,5 @@
 package Qn3;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -10,11 +11,11 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-
-public class Mapper3_1 extends Mapper<LongWritable, Text, CompositeKey3, LongWritable> {
-	private LongWritable rev_id = new LongWritable();
+public class Mapper3_1 extends Mapper<LongWritable, Text, LongWritable, Text> {
+	private LongWritable outKey = new LongWritable();
+	private Text outValue = new Text();
 	private Date timestampInput;
-
+	private String valueString;
 	// set up mapper
 	@Override
 	protected void setup(Context context) throws IOException,
@@ -39,8 +40,7 @@ public class Mapper3_1 extends Mapper<LongWritable, Text, CompositeKey3, LongWri
 			long article_id_long = getLongId(words.nextToken());
 			long rev_id_long = getLongId(words.nextToken());
 
-			// set value rev_id LongWritable 
-			rev_id.set(rev_id_long);
+			
 
 			// get timestamp
 			words.nextToken(); //to skip article_title
@@ -48,12 +48,19 @@ public class Mapper3_1 extends Mapper<LongWritable, Text, CompositeKey3, LongWri
 
 			// if timestamp =< timestampInput 
 			if(checkDateBefore(timestamp)){		
-				
-				// create CompositeKey ck to perform secondary sort
-				CompositeKey3 ck = new CompositeKey3(timestamp.getTime(), article_id_long);
 
-				// Key: article_id, timestamp Value: article_id
-				context.write(ck, rev_id);
+				// create CompositeKey ck to perform secondary sort
+				//CompositeKey3 ck = new CompositeKey3(timestamp.getTime(), article_id_long);
+				
+				// set articleId as key
+				outKey.set(article_id_long);
+				
+				// set value date + rev_id as Text 
+				valueString = String.format("%d %d", timestamp.getTime(), rev_id_long);
+				outValue.set(valueString);
+				
+				// Key: article_id  Value: timestamp, rev_id
+				context.write(outKey, outValue);
 
 			}
 		}
@@ -97,6 +104,5 @@ public class Mapper3_1 extends Mapper<LongWritable, Text, CompositeKey3, LongWri
 	private static String getRemainingString(String text) {
 		return text.substring(text.indexOf(' '), text.length()).trim();
 	}
-
 
 }

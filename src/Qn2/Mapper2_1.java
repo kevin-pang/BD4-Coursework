@@ -7,14 +7,15 @@ import java.util.StringTokenizer;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
-public class Mapper2_1 extends Mapper<LongWritable, Text, LongWritable, LongWritable> {
+public class Mapper2_1 extends Mapper<LongWritable, Text, LongWritable, IntWritable> {
 	private LongWritable article_id = new LongWritable();
-	private LongWritable rev_id = new LongWritable();
+	private IntWritable count = new IntWritable(1);
 	private Date start;
 	private Date end;
 
@@ -40,17 +41,18 @@ public class Mapper2_1 extends Mapper<LongWritable, Text, LongWritable, LongWrit
 			// split remaining words 
 			StringTokenizer words = new StringTokenizer(getRemainingString(line));
 			
-			// set article_id and rev_id LongWritable
+			// set article_id LongWritable
 			article_id.set(getLongId(words.nextToken()));
-			rev_id.set(getLongId(words.nextToken()));
 			
 			// get timestamp
+			words.nextToken(); //to skip rev_id
 			words.nextToken(); //to skip article_title
+	
 			Date timestamp = getDateTime(words.nextToken());
 
 			// if timestamp is within start and end date add
 			if(checkDateWithin(timestamp)){			
-				context.write(article_id, rev_id);
+				context.write(article_id, count);
 			}
 		}
 	}
